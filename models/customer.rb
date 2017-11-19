@@ -60,7 +60,14 @@ class Customer
     return films.map {|film| Film.new(film)}
   end
 
-
-
+  def check_num_of_tickets
+    sql = "SELECT tickets.* FROM tickets
+    INNER JOIN customers
+    ON customers.id = tickets.customer_id
+    WHERE tickets.customer_id = $1"
+    values = [@id]
+    tickets = SqlRunner.run(sql, values)
+    return tickets.count
+  end
 
 end
